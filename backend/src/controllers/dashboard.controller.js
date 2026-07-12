@@ -6,7 +6,6 @@ const User = require('../models/User');
 
 // @route  GET /api/dashboard/summary
 // @access Private
-// Real aggregates for the logged-in user's own activity — no dummy numbers.
 const getMySummary = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
@@ -24,8 +23,7 @@ const getMySummary = asyncHandler(async (req, res) => {
     Booking.countDocuments({ buyer: userId, status: { $in: ['pending', 'accepted'] } }),
     Notification.countDocuments({ user: userId, isRead: false }),
     User.findById(userId).then((u) => u.favorites.length),
-    // Sum of completed bookings where this user was the seller — real
-    // revenue from real transactions, not a placeholder figure.
+    // Calculate completed-sales revenue for the current seller.
     Booking.aggregate([
       { $match: { seller: userId, status: 'completed' } },
       { $group: { _id: null, total: { $sum: '$priceAtBooking' }, count: { $sum: 1 } } },

@@ -19,8 +19,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // On first load, try to silently exchange the httpOnly refresh cookie
-  // for a fresh access token, so a page reload doesn't log the user out.
+  // Restore the session on first load using the refresh cookie.
   useEffect(() => {
     const bootstrap = async () => {
       try {

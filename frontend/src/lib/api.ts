@@ -5,8 +5,7 @@ export const api = axios.create({
   withCredentials: true, // sends the httpOnly refresh-token cookie
 });
 
-// In-memory only — never localStorage, so the access token can't be
-// lifted by an XSS payload reading browser storage.
+// Keep the access token in memory so it is not exposed through browser storage.
 let accessToken: string | null = null;
 
 export const setAccessToken = (token: string | null) => {
@@ -30,9 +29,7 @@ const processQueue = (error: unknown, token: string | null = null) => {
   queue = [];
 };
 
-// If a request fails with 401, attempt one silent refresh before giving up.
-// This keeps the user logged in across the 15-minute access-token expiry
-// without forcing a re-login on every short session.
+// Refresh the session once when a request receives a 401 response.
 api.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {

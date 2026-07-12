@@ -6,9 +6,7 @@ const notify = require('../utils/notify');
 const { paginate, buildPaginationMeta } = require('../utils/pagination');
 
 /**
- * Defines which role may move a booking from one status to another.
- * 'both' means either the buyer or the seller may perform that transition.
- * Anything not listed here is an illegal transition.
+ * Maps each booking status to the role allowed to change it.
  */
 const ALLOWED_TRANSITIONS = {
   pending: { accepted: 'seller', rejected: 'seller', cancelled: 'buyer' },
@@ -134,8 +132,7 @@ const updateBookingStatus = asyncHandler(async (req, res) => {
   if (requiredRole === 'buyer' && !isBuyer) {
     throw ApiError.forbidden('Only the buyer can perform this action');
   }
-  // requiredRole === 'both' → either participant may proceed.
-
+  // Either participant may continue this transition.
   booking.status = nextStatus;
   await booking.save();
 

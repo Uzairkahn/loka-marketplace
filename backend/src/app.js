@@ -18,11 +18,10 @@ const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-// Render and similar proxies set X-Forwarded-For headers; Express needs to
-// trust the proxy chain so request metadata is parsed correctly.
+// Enable proxy-aware request parsing for production deployments behind a reverse proxy.
 app.set('trust proxy', 1);
 
-// --- security & parsing middleware ---
+// Security and request parsing middleware.
 app.use(helmet());
 app.use(
   cors({
@@ -39,7 +38,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
-// General API-wide rate limit; auth routes have their own stricter limiter.
+// Apply a general API rate limit to protect public endpoints.
 app.use(
   '/api',
   rateLimit({
@@ -50,12 +49,12 @@ app.use(
   })
 );
 
-// --- health check ---
+// Health check endpoint for deployment and uptime monitoring.
 app.get('/api/health', (req, res) => {
   res.status(200).json({ success: true, message: 'Loka API is running' });
 });
 
-// --- routes ---
+// Register API routes.
 app.use('/api/auth', authRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/bookings', bookingRoutes);
@@ -65,7 +64,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin', adminRoutes);
 
-// --- error handling (must be last) ---
+// Error handling middleware must stay last.
 app.use(notFound);
 app.use(errorHandler);
 
