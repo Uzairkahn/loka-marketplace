@@ -34,18 +34,22 @@ export default function BookingCard({ booking }: { booking: Booking }) {
     }
   };
 
+  const listingTitle = booking.listing?.title ?? 'Deleted Listing';
+  const listingHref = booking.listing?._id ? `/listings/${booking.listing._id}` : `/bookings/${booking._id}`;
+  const listingImage = booking.listing?.images?.[0];
+
   return (
     <div className="flex flex-col gap-4 rounded-card border border-white/10 bg-surface p-5 sm:flex-row sm:items-center">
-      <Link href={`/listings/${booking.listing._id}`} className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-raised">
-        {booking.listing.images[0] && (
-          <Image src={booking.listing.images[0].url} alt={booking.listing.title} fill sizes="80px" className="object-cover" />
+      <Link href={listingHref} className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-raised">
+        {listingImage && (
+          <Image src={listingImage.url} alt={listingTitle} fill sizes="80px" className="object-cover" />
         )}
       </Link>
 
       <div className="flex-1">
         <div className="flex items-center gap-3">
           <Link href={`/bookings/${booking._id}`} className="font-display text-lg text-ink-primary hover:text-amber">
-            {booking.listing.title}
+            {listingTitle}
           </Link>
           <BookingStatusBadge status={booking.status} />
         </div>

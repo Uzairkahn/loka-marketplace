@@ -40,6 +40,23 @@ const getMySummary = asyncHandler(async (req, res) => {
 
   const earnings = earningsAgg[0]?.total || 0;
   const completedSalesCount = earningsAgg[0]?.count || 0;
+  const safeRecentBookings = recentBookings.map((booking) => {
+    const bookingObject = booking.toObject ? booking.toObject() : booking;
+    return {
+      ...bookingObject,
+      listing: bookingObject.listing
+        ? bookingObject.listing
+        : {
+            _id: null,
+            title: 'Deleted Listing',
+            images: [],
+            price: 0,
+            type: 'product',
+          },
+      buyer: bookingObject.buyer || { _id: null, fullName: 'Unknown user', avatarUrl: '' },
+      seller: bookingObject.seller || { _id: null, fullName: 'Unknown user', avatarUrl: '' },
+    };
+  });
 
   res.status(200).json({
     success: true,
@@ -51,7 +68,7 @@ const getMySummary = asyncHandler(async (req, res) => {
       favoritesCount,
       earnings,
       completedSalesCount,
-      recentBookings,
+      recentBookings: safeRecentBookings,
     },
   });
 });

@@ -80,9 +80,11 @@ export default function BookingsPage() {
               No bookings {role === 'buyer' ? 'made' : 'received'} yet.
             </p>
           )}
-          {data?.bookings.map((booking) => (
-            <BookingCard key={booking._id} booking={booking} />
-          ))}
+          {data?.bookings
+            .filter((booking) => booking.listing && booking.listing._id)
+            .map((booking) => (
+              <BookingCard key={booking._id} booking={booking} />
+            ))}
         </div>
       </div>
       <Footer />

@@ -39,15 +39,18 @@ export default function AdminReportsPage() {
           </p>
         )}
 
-        {data?.reviews.map((review) => (
-          <div key={review._id} className="rounded-card border border-white/10 bg-surface p-5">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm text-ink-muted">
-                  <span className="font-medium text-ink-primary">{review.reviewer.fullName}</span> reviewed{' '}
-                  <span className="font-medium text-ink-primary">{review.targetUser.fullName}</span> on &quot;
-                  {review.listing.title}&quot;
-                </p>
+        {data?.reviews.map((review) => {
+          const listingTitle = review.listing && typeof review.listing !== 'string' ? review.listing.title : 'Deleted Listing';
+
+          return (
+            <div key={review._id} className="rounded-card border border-white/10 bg-surface p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm text-ink-muted">
+                    <span className="font-medium text-ink-primary">{review.reviewer.fullName}</span> reviewed{' '}
+                    <span className="font-medium text-ink-primary">{review.targetUser.fullName}</span> on &quot;
+                    {listingTitle}&quot;
+                  </p>
                 <div className="mt-2">
                   <StarRating value={review.rating} readOnly size={16} />
                 </div>
@@ -55,25 +58,26 @@ export default function AdminReportsPage() {
               </div>
             </div>
 
-            <div className="mt-4 flex gap-2">
-              <Button
-                variant="secondary"
-                isLoading={pendingId === review._id}
-                onClick={() => handleResolve(review._id, 'dismiss')}
-              >
-                Dismiss report
-              </Button>
-              <Button
-                variant="secondary"
-                isLoading={pendingId === review._id}
-                onClick={() => handleResolve(review._id, 'delete')}
-                className="text-danger"
-              >
-                Delete review
-              </Button>
+              <div className="mt-4 flex gap-2">
+                <Button
+                  variant="secondary"
+                  isLoading={pendingId === review._id}
+                  onClick={() => handleResolve(review._id, 'dismiss')}
+                >
+                  Dismiss report
+                </Button>
+                <Button
+                  variant="secondary"
+                  isLoading={pendingId === review._id}
+                  onClick={() => handleResolve(review._id, 'delete')}
+                  className="text-danger"
+                >
+                  Delete review
+                </Button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

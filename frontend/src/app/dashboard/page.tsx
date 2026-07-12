@@ -73,21 +73,27 @@ export default function DashboardPage() {
                 <p className="mt-3 text-ink-muted">No booking activity yet.</p>
               ) : (
                 <div className="mt-3 flex flex-col gap-3">
-                  {summary.recentBookings.map((b) => (
-                    <Link
-                      key={b._id}
-                      href={`/bookings/${b._id}`}
-                      className="flex items-center justify-between rounded-card border border-white/10 bg-surface p-4 hover:border-amber/40"
-                    >
-                      <div>
-                        <p className="text-sm font-medium text-ink-primary">{b.listing.title}</p>
-                        <p className="text-xs text-ink-muted">
-                          {b.buyer.fullName} → {b.seller.fullName}
-                        </p>
-                      </div>
-                      <BookingStatusBadge status={b.status} />
-                    </Link>
-                  ))}
+                  {summary.recentBookings.map((b) => {
+                    const listingTitle = b.listing?.title ?? 'Deleted Listing';
+                    const buyerName = b.buyer?.fullName ?? 'Unknown user';
+                    const sellerName = b.seller?.fullName ?? 'Unknown user';
+
+                    return (
+                      <Link
+                        key={b._id}
+                        href={`/bookings/${b._id}`}
+                        className="flex items-center justify-between rounded-card border border-white/10 bg-surface p-4 hover:border-amber/40"
+                      >
+                        <div>
+                          <p className="text-sm font-medium text-ink-primary">{listingTitle}</p>
+                          <p className="text-xs text-ink-muted">
+                            {buyerName} → {sellerName}
+                          </p>
+                        </div>
+                        <BookingStatusBadge status={b.status} />
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </div>

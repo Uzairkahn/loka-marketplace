@@ -18,6 +18,10 @@ const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
+// Render and similar proxies set X-Forwarded-For headers; Express needs to
+// trust the proxy chain so request metadata is parsed correctly.
+app.set('trust proxy', 1);
+
 // --- security & parsing middleware ---
 app.use(helmet());
 app.use(
