@@ -71,33 +71,33 @@ Every feature listed below is **fully implemented and functional** against a rea
 
 ## 📸 Screenshots
 
-> All screenshots below are from the live deployment. Place these image files in a `/screenshots` folder at the repo root, using the exact filenames shown (matching what's already referenced here).
+> All screenshots below are from the live deployment, stored in the `/screenshot` folder at the repo root.
 
 ### Landing Page
 
 | Hero | Browse by Category | How It Works |
 |---|---|---|
-| ![Hero section](./screenshots/landingpage1.png) | ![Category grid](./screenshots/landingpage.png) | ![How it works](./screenshots/landingpage3.png) |
+| ![Hero section](./screenshot/landingpage1.png) | ![Category grid](./screenshot/landingpage.png) | ![How it works](./screenshot/landingpage3.png) |
 
 ### Marketplace
 
 | Browse & Filter | Filtered Results |
 |---|---|
-| ![Browse marketplace](./screenshots/browse.png) | ![Filtered by category](./screenshots/browsefilter.png) |
+| ![Browse marketplace](./screenshot/browse.png) | ![Filtered by category](./screenshot/browsefilter.png) |
 
 | Create a Listing | My Listings |
 |---|---|
-| ![Create listing form](./screenshots/createlisting.png) | ![My listings](./screenshots/mylisting.png) |
+| ![Create listing form](./screenshot/createlisting.png) | ![My listings](./screenshot/mylisting.png) |
 
 ### Bookings & Messaging
 
 | Bookings | Real-Time Chat |
 |---|---|
-| ![Bookings page](./screenshots/booking.png) | ![Messages / chat](./screenshots/messages.png) |
+| ![Bookings page](./screenshot/booking.png) | ![Messages / chat](./screenshot/messages.png) |
 
 ### Dashboard
 
-![User dashboard](./screenshots/dashboard.png)
+![User dashboard](./screenshot/dashboard.png)
 
 ---
 
